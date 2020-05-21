@@ -63,6 +63,24 @@ Extensive usage information is provided at https://cluster.ipfs.io/documentation
 * [Docs for `ipfs-cluster-ctl`](https://cluster.ipfs.io/documentation/reference/ctl/)
 * [Docs for `ipfs-cluster-follow`](https://cluster.ipfs.io/documentation/reference/follow/)
 
+### Using the cluster with Splunk
+Prerequisites:
+* Make
+* Docker 18 or higher
+* Docker-compose 1.25 or higher
+
+Run the following from command line:
+```shell script
+make docker-compose-splunk
+```
+
+Follow the prompts. You can log in to Splunk at `http://localhost:18000/en-US/app/ipfs/ipfs_metrics` with `admin`/`changeme`.
+
+To stop, type:
+```shell script
+make docker-compose-splunk-stop
+```
+
 ## Contribute
 
 PRs accepted. As part of the IPFS project, we have some [contribution guidelines](https://cluster.ipfs.io/support/#contribution-guidelines).
