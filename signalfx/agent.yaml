@@ -1,0 +1,71 @@
+signalFxAccessToken: ${SFX_ACCESS_TOKEN}
+ingestUrl: ${SFX_INGEST_URL}
+apiUrl: ${SFX_API_URL}
+traceEndpointUrl: ${SFX_TRACE_URL}
+hostname: ${HOST}
+intervalSeconds: 10
+
+etcPath: /hostfs/etc
+procPath: /hostfs/proc
+runPath: /hostfs/run
+varPath: /hostfs/var
+sysPath: /hostfs/sys
+
+writer:
+  traceExportFormat: sapm
+  splunk:
+    enabled: true
+    url: ${SPLUNK_URL}
+    token: ${SPLUNK_TOKEN}
+    index: ${SPLUNK_INDEX}
+    source: ${SPLUNK_SOURCE}
+    skipTLSVerify: ${SPLUNK_SKIP_TLS_VERIFY}
+logging:
+  # Valid values are 'debug', 'info', 'warning', and 'error'
+  level: info
+
+monitors:
+  - type: cpu
+  - type: filesystems
+    hostFSPath: /hostfs
+  - type: disk-io
+  - type: net-io
+  - type: load
+  - type: memory
+  - type: vmem
+  - type: host-metadata
+  - type: processlist
+  - type: docker-container-stats
+    enableExtraCPUMetrics: true
+  - type: prometheus-exporter
+    host: ipfs0
+    port: 5001
+    metricPath: /debug/metrics/prometheus
+    extraDimensions:
+      metric_source: prometheus
+      host_type: ipfs
+      peer: ipfs0
+  - type: prometheus-exporter
+    host: ipfs1
+    port: 5001
+    metricPath: /debug/metrics/prometheus
+    extraDimensions:
+      metric_source: prometheus
+      host_type: ipfs
+      peer: ipfs1
+  - type: prometheus-exporter
+    host: ipfs2
+    port: 5001
+    metricPath: /debug/metrics/prometheus
+    extraDimensions:
+      metric_source: prometheus
+      host_type: ipfs
+      peer: ipfs2
+  - type: trace-forwarder
+    listenAddress: 0.0.0.0:9080
+    extraSpanTags:
+      environment: hyperledger-demo
+
+collectd:
+  disableCollectd: true
+  configDir: /tmp/collectd

@@ -1,0 +1,141 @@
+<dashboard theme="dark">
+  <label>IPFS Metrics</label>
+  <row>
+    <panel>
+      <chart>
+        <title>CPU utilization</title>
+        <search>
+          <query>| mstats avg(_value) prestats=true WHERE metric_name="cpu.percent" AND index="sfx" AND (container_name="ipfs0" OR container_name="ipfs1" OR container_name="ipfs2") span=10s BY container_name
+| timechart avg(_value) span=10s agg=max limit=5 useother=false BY container_name
+| fields - _span*</query>
+          <earliest>-1h</earliest>
+        </search>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">connect</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.fieldColors">{"Avg":"#1e93c6","ipfs0":"#1e93c6","ipfs1":"#f2b827","ipfs2":"#d6563c","sfxagent":"#6a5c9e","splunk":"#31a35f"}</option>
+        <option name="charting.gridLinesX.showMajorLines">true</option>
+        <option name="charting.axisY.abbreviation">auto</option>
+        <option name="charting.axisY.includeZero">true</option>
+        <option name="charting.legend.mode">seriesCompare</option>
+        <option name="charting.fieldDashStyles">{"Avg":"solid","ipfs0":"solid","ipfs1":"solid","ipfs2":"solid","sfxagent":"solid","splunk":"solid"}</option>
+        <option name="displayview">analytics_workspace</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Memory allocation</title>
+        <search>
+          <query>| mstats avg(_value) prestats=true WHERE metric_name="go_memstats_heap_alloc_bytes" AND index="sfx" span=10s BY peer
+| timechart avg(_value) span=10s agg=max limit=5 useother=false BY peer
+| fields - _span*</query>
+          <earliest>-1h</earliest>
+        </search>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">connect</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.fieldColors">{"Avg":"#1e93c6","ipfs0":"#1e93c6","ipfs1":"#f2b827","ipfs2":"#d6563c"}</option>
+        <option name="charting.gridLinesX.showMajorLines">true</option>
+        <option name="charting.axisY.abbreviation">auto</option>
+        <option name="charting.axisY.includeZero">true</option>
+        <option name="charting.legend.mode">seriesCompare</option>
+        <option name="charting.fieldDashStyles">{"Avg":"solid","ipfs0":"solid","ipfs1":"solid","ipfs2":"solid"}</option>
+        <option name="displayview">analytics_workspace</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>Datastore writes latency</title>
+        <search>
+          <query>| mstats avg(_value) prestats=true WHERE metric_name="ipfs_fsrepo_datastore_put_latency_seconds" AND index="sfx" span=10s BY peer
+| timechart avg(_value) span=10s agg=max limit=5 useother=false BY peer
+| fields - _span*</query>
+          <earliest>-1h</earliest>
+        </search>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">connect</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.fieldColors">{"Avg":"#1e93c6","ipfs0":"#1e93c6","ipfs1":"#f2b827","ipfs2":"#d6563c"}</option>
+        <option name="charting.gridLinesX.showMajorLines">true</option>
+        <option name="charting.axisY.abbreviation">auto</option>
+        <option name="charting.axisY.includeZero">true</option>
+        <option name="charting.legend.mode">seriesCompare</option>
+        <option name="charting.fieldDashStyles">{"Avg":"solid","ipfs0":"solid","ipfs1":"solid","ipfs2":"solid"}</option>
+        <option name="displayview">analytics_workspace</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Datastore reads latency</title>
+        <search>
+          <query>| mstats avg(_value) prestats=true WHERE metric_name="ipfs_fsrepo_datastore_get_latency_seconds" AND index="sfx" span=10s BY peer
+| timechart avg(_value) span=10s agg=max limit=5 useother=false BY peer
+| fields - _span*</query>
+          <earliest>-1h</earliest>
+        </search>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">connect</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.fieldColors">{"Avg":"#1e93c6","ipfs0":"#1e93c6","ipfs1":"#f2b827","ipfs2":"#d6563c"}</option>
+        <option name="charting.gridLinesX.showMajorLines">true</option>
+        <option name="charting.axisY.abbreviation">auto</option>
+        <option name="charting.axisY.includeZero">true</option>
+        <option name="charting.legend.mode">seriesCompare</option>
+        <option name="charting.fieldDashStyles">{"Avg":"solid","ipfs0":"solid","ipfs1":"solid","ipfs2":"solid"}</option>
+        <option name="displayview">analytics_workspace</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>Garbage collection</title>
+        <search>
+          <query>| mstats avg(_value) prestats=true WHERE metric_name="go_gc_duration_seconds" AND index="sfx" span=10s BY peer
+| timechart avg(_value) span=10s agg=max limit=5 useother=false BY peer
+| fields - _span*</query>
+          <earliest>-1h</earliest>
+        </search>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">connect</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.fieldColors">{"Avg":"#1e93c6","ipfs0":"#1e93c6","ipfs1":"#f2b827","ipfs2":"#d6563c"}</option>
+        <option name="charting.gridLinesX.showMajorLines">true</option>
+        <option name="charting.axisY.abbreviation">auto</option>
+        <option name="charting.axisY.includeZero">true</option>
+        <option name="charting.legend.mode">seriesCompare</option>
+        <option name="charting.fieldDashStyles">{"Avg":"solid","ipfs0":"solid","ipfs1":"solid","ipfs2":"solid"}</option>
+        <option name="displayview">analytics_workspace</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Peer count</title>
+        <search>
+          <query>| mstats avg(_value) prestats=true WHERE metric_name="ipfs_p2p_peers_total" AND index="sfx" span=10s BY peer
+| timechart avg(_value) span=10s agg=max limit=5 useother=false BY peer
+| fields - _span*</query>
+          <earliest>-1h</earliest>
+        </search>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">connect</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.fieldColors">{"Avg":"#1e93c6","ipfs0":"#1e93c6","ipfs1":"#f2b827","ipfs2":"#d6563c"}</option>
+        <option name="charting.gridLinesX.showMajorLines">true</option>
+        <option name="charting.axisY.abbreviation">auto</option>
+        <option name="charting.axisY.includeZero">true</option>
+        <option name="charting.legend.mode">seriesCompare</option>
+        <option name="charting.fieldDashStyles">{"Avg":"solid","ipfs0":"solid","ipfs1":"solid","ipfs2":"solid"}</option>
+        <option name="displayview">analytics_workspace</option>
+      </chart>
+    </panel>
+  </row>
+</dashboard>

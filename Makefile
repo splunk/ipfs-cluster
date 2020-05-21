@@ -75,6 +75,17 @@ docker-compose:
 	docker exec cluster1 ipfs-cluster-ctl peers ls | grep -o "Sees 2 other peers" | uniq -c | grep 3
 	docker-compose down
 
+docker-compose-splunk:
+	mkdir -p compose/ipfs0 compose/ipfs1 compose/cluster0 compose/cluster1
+	chmod -R 0777 compose
+	CLUSTER_SECRET=$(shell od -vN 32 -An -tx1 /dev/urandom | tr -d ' \n') docker-compose -f docker-compose-splunk.yml up -d
+	bash -c 'until docker logs splunk | grep -q "Ansible playbook complete"; do sleep 1; done'
+	echo "Opening Splunk IPFS app at http://localhost:18000/en-US/app/ipfs/ipfs_metrics, log in with admin/changeme"
+	open http://localhost:18000/en-US/app/ipfs/ipfs_metrics
+
+docker-compose-splunk-stop:
+	CLUSTER_SECRET="foo" docker-compose -f docker-compose-splunk.yml down
+
 prcheck: check service ctl follow test
 
 .PHONY: all test test_sharness clean_sharness rw rwundo publish service ctl install clean docker
